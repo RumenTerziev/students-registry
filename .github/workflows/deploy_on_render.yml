@@ -1,19 +1,18 @@
 name: Deploy on render
 
 on:
-    workflow_run:
-      workflows: ["Build and test"]
-      types:
-        - completed
+  workflow_run:
+    workflows: ["Build and test"]
+    types:
+      - completed
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to production
-        uses: johnbeynon/render-deploy-action@v0.0.8
-        with:
-          service-id: ${{ secrets.MY_RENDER_SERVICE_ID }}
-          api-key: ${{ secrets.MY_RENDER_API_KEY }}
-          wait-for-success: true
-          
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: JorgeLNJunior/render-deploy@v1.4.4
+              with:
+                service_id: ${{ secrets.RENDER_SERVICE_ID }}
+                api_key: ${{ secrets.RENDER_API_KEY }}
+                wait_deploy: true
